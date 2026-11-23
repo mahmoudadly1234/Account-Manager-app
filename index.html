@@ -147,24 +147,94 @@ header h1,header .sub,.net span{color:rgb(255 255 255/.72)}
 .mv button{width:40px;height:32px;border:1px solid var(--line);background:var(--panel);color:var(--ink);border-radius:8px;display:grid;place-items:center;cursor:pointer;padding:0}
 .mv button:disabled{opacity:.3;cursor:default}
 .mv svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.linkbtn{border:0;background:none;color:var(--acc);font:inherit;font-weight:600;font-size:15px;min-height:44px;cursor:pointer;padding:0 4px}
+.bars .r{grid-template-columns:7.5em minmax(0,1fr) auto;margin:12px 0}
+.bars .r .v{text-align:end;white-space:nowrap;line-height:1.25}.bars .r .v small{display:block;font-size:12px;color:var(--mute);font-weight:500}
+.bars .f.ok{background:var(--ok)}.bars .f.warn{background:#f59e0b}.bars .f.over{background:var(--mag)}
+.bars .tot{border-top:1px solid var(--line);margin-top:6px;padding-top:6px}
+.balert{border-radius:12px;padding:12px 14px;margin:16px 0 0;font-size:14px;line-height:1.45;display:flex;gap:10px;align-items:flex-start}
+.balert.over{background:color-mix(in srgb,var(--mag) 12%,var(--panel));border:1px solid color-mix(in srgb,var(--mag) 35%,transparent)}
+.balert.warn{background:color-mix(in srgb,#f59e0b 14%,var(--panel));border:1px solid color-mix(in srgb,#f59e0b 40%,transparent)}
+.balert svg{flex:none;width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;margin-top:1px}
+#bRows .row{align-items:center;margin:6px 0}#bRows input{max-width:150px}
+.seg{display:grid;grid-template-columns:1fr 1fr;background:var(--line);border-radius:12px;padding:4px;margin:18px 0 4px}
+.seg button{min-height:40px;border:0;border-radius:9px;background:none;color:var(--mute);font:inherit;font-weight:600;font-size:15px;cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--panel);color:var(--ink);box-shadow:0 1px 3px rgb(15 23 42/.12)}
+.mhead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:14px}.mhead h2{margin:0;text-align:center;flex:1}
+.iconbtn{width:44px;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--panel);color:var(--ink);display:grid;place-items:center;cursor:pointer}
+.iconbtn svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.iconbtn:disabled{opacity:.35;cursor:default}
+.chart{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px;align-items:end;height:170px;padding-top:8px}
+.chart button{height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:6px;border:0;background:none;border-radius:10px;cursor:pointer;padding:4px 0;color:var(--mute);font:inherit;font-size:12px}
+.chart button[aria-current=true]{background:color-mix(in srgb,var(--acc) 9%,transparent);color:var(--ink);font-weight:600}
+.chart .bs{flex:1;width:100%;display:flex;align-items:flex-end;justify-content:center;gap:3px}
+.chart .bs i{display:block;width:34%;max-width:16px;border-radius:4px 4px 0 0;min-height:2px}
+.li{background:var(--ok)}.lo{background:var(--accbg)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:12px;font-size:13px;color:var(--mute);align-items:center}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-inline-end:6px;vertical-align:-1px}
+.rrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;padding:10px 0;border-bottom:1px solid var(--line)}.rrow:last-child{border:0}
+.rrow .t{grid-column:1/-1;height:6px;background:var(--line);border-radius:4px;overflow:hidden;margin-top:4px}.rrow .t i{display:block;height:100%;background:var(--accbg);border-radius:4px}
+.rrow small{color:var(--mute);font-size:12px}.up{color:var(--mag)}.down{color:var(--ok)}
+#lock{position:fixed;inset:0;z-index:60;display:grid;place-items:center;padding:24px;color:#fff;
+ background:radial-gradient(420px 260px at 85% 10%,rgb(59 130 246/.5),transparent 70%),radial-gradient(380px 240px at 10% 90%,rgb(20 184 166/.35),transparent 70%),linear-gradient(160deg,#0b1532,#1e3a8a)}
+#lock[hidden]{display:none}
+.lockbox{width:min(340px,100%);text-align:center}.lockbox h2{color:#fff;margin:14px 0 22px}
+.lockic{width:64px;height:64px;border-radius:18px;background:rgb(255 255 255/.12);display:grid;place-items:center;margin:auto}
+.lockic svg{width:30px;height:30px;fill:none;stroke:#fff;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.lockbox label{color:rgb(255 255 255/.75);text-align:start;margin-top:18px}
+.lockbox input{text-align:center;font-size:22px;letter-spacing:.4em;background:rgb(255 255 255/.1);border-color:rgb(255 255 255/.25);color:#fff}
+.lockbox .btn{background:#fff;color:#1e3a8a}.lockbox .btn.ghost{background:rgb(255 255 255/.1);color:#fff;border-color:rgb(255 255 255/.25)}
+#lockErr{min-height:1.5em;color:#fecaca;font-size:14px;margin:12px 0 0}
+.calp{display:flex;gap:12px;align-items:center}
+.upc{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:6px 14px;margin-top:16px;box-shadow:var(--shadow)}
+.upc h3{font-size:13px;color:var(--mute);font-weight:600;margin:8px 0 2px}
+.upc li{display:flex;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line);list-style:none}.upc li:first-child{border-top:0}
+.upc ul{margin:0;padding:0}.upc .m{flex:1}.upc .m b{display:block;font-size:15px}.upc .m span{font-size:13px}
+.upc .soon{color:var(--mag);font-weight:600}.upc .later{color:var(--mute)}
+.upc button{border:1px solid var(--line);background:var(--panel);color:var(--acc);font:inherit;font-weight:600;font-size:14px;border-radius:10px;min-height:40px;padding:0 12px;cursor:pointer}
+.gbtn{display:flex;align-items:center;justify-content:center;gap:10px;font-weight:600}.gbtn svg{width:20px;height:20px}
+.or{display:flex;align-items:center;gap:10px;color:var(--mute);font-size:13px;margin:16px 0 0}.or::before,.or::after{content:"";flex:1;height:1px;background:var(--line)}
+.dlg{position:fixed;inset:0;z-index:55;background:rgb(15 23 42/.55);display:grid;place-items:center;padding:20px}.dlg[hidden]{display:none}
+.dlgbox{background:var(--panel);border-radius:16px;padding:20px;width:min(420px,100%);box-shadow:0 20px 50px rgb(0 0 0/.3)}.dlgbox h2{margin-top:0}
+.syncdot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#34d399;margin-inline-start:6px;vertical-align:1px}
 </style>
 </head>
 <body>
+<div id="lock" hidden>
+  <div class="lockbox">
+    <div class="lockic"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg></div>
+    <h2>Financial App is locked</h2>
+    <button type="button" class="btn" id="lockBio" hidden>Unlock with Face ID / fingerprint</button>
+    <label for="lockPin">Enter your PIN</label>
+    <input id="lockPin" type="password" inputmode="numeric" autocomplete="off" maxlength="6" pattern="[0-9]*">
+    <button type="button" class="btn ghost" id="lockGo">Unlock</button>
+    <p id="lockErr" role="alert"></p>
+  </div>
+</div>
+<script>try{if(localStorage.getItem('finapp-lock'))document.getElementById('lock').hidden=false}catch(e){}</script>
 <div class="app">
   <header><div><h1>Financial App</h1><div class="sub" id="month"></div></div><div class="net"><span>Total balance</span><b id="net"></b></div></header>
   <div class="wallet" id="wallet" aria-label="Your accounts"></div>
   <div class="sum" id="sum"></div>
 
   <section class="view on" id="v-home">
-    <h2>Spending by type</h2>
+    <div id="upcoming"></div>
+    <div id="budgetAlert"></div>
+    <div style="display:flex;justify-content:space-between;align-items:baseline;gap:10px"><h2>Budgets &amp; spending</h2><button type="button" class="linkbtn" id="bEditBtn">Set budgets</button></div>
     <div class="panel bars" id="bars"></div>
+    <div class="panel" id="bEdit" hidden style="margin-top:10px">
+      <p class="note" style="margin-top:0">Monthly limit for each expense type. Leave empty for no limit.</p>
+      <div id="bRows"></div>
+      <div class="row" style="align-items:center;margin-top:6px"><b style="flex:1">Total monthly budget</b><input id="bTotal" type="number" inputmode="decimal" min="0" step="any" placeholder="No limit" style="max-width:150px"></div>
+      <button type="button" class="btn" id="bDone">Done</button>
+    </div>
     <h2>Recent activity</h2>
     <div class="panel"><ul class="tx" id="list"></ul></div>
     <p class="note" id="demoNote">This is sample data. <button class="chip" id="clearDemo" style="min-height:36px;padding:4px 12px">Clear it and start fresh</button></p>
   </section>
 
   <section class="view" id="v-out">
-    <h2>New expense</h2>
+    <div class="seg" role="tablist"><button type="button" data-go="out" aria-pressed="true">Expense</button><button type="button" data-go="in" aria-pressed="false">Income</button></div>
     <form class="panel" id="fOut">
       <label>Expense type</label>
       <div class="chips" id="cats"></div>
@@ -179,7 +249,7 @@ header h1,header .sub,.net span{color:rgb(255 255 255/.72)}
   </section>
 
   <section class="view" id="v-in">
-    <h2>New income</h2>
+    <div class="seg" role="tablist"><button type="button" data-go="out" aria-pressed="false">Expense</button><button type="button" data-go="in" aria-pressed="true">Income</button></div>
     <form class="panel" id="fIn">
       <label>Income source</label>
       <div class="chips" id="srcs"></div>
@@ -194,6 +264,7 @@ header h1,header .sub,.net span{color:rgb(255 255 255/.72)}
 
   <section class="view" id="v-fac">
     <h2>Installments</h2>
+    <div class="panel calp" style="margin-bottom:12px"><div style="flex:1"><b>Reminders in your calendar</b><div class="note" style="margin:2px 0 0">Alerts 2 days and 1 day before each installment at 9 AM, even when the app is closed.</div></div><button type="button" class="btn ghost" id="calBtn" style="width:auto;margin:0;padding:0 16px;flex:none">Add</button></div>
     <div class="sum" id="facSum"></div>
     <div id="facList"></div>
     <h2 id="facTitle">Add an installment</h2>
@@ -211,7 +282,41 @@ header h1,header .sub,.net span{color:rgb(255 255 255/.72)}
     </form>
   </section>
 
+  <section class="view" id="v-rep">
+    <div class="mhead"><button type="button" class="iconbtn" id="rPrev" aria-label="Previous month"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button><h2 id="rMonth"></h2><button type="button" class="iconbtn" id="rNext" aria-label="Next month"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button></div>
+    <div class="sum" id="rSum"></div>
+    <h2>Last 6 months</h2>
+    <div class="panel"><div class="chart" id="rChart"></div><div class="legend"><span><i class="li"></i>Income</span><span><i class="lo"></i>Spent</span><span class="note" style="margin:0">Tap a month to open it</span></div></div>
+    <h2>Where the money went</h2>
+    <div class="panel" id="rCats"></div>
+    <h2>By account</h2>
+    <div class="panel" id="rAccs"></div>
+    <h2>Biggest expenses</h2>
+    <div class="panel"><ul class="tx" id="rTop"></ul></div>
+    <h2>Export</h2>
+    <div class="panel">
+      <div class="row"><button type="button" class="btn ghost" id="rCsvM" style="margin-top:0">This month</button><button type="button" class="btn ghost" id="rCsvAll" style="margin-top:0">Everything</button></div>
+      <p class="note">Saves a .csv file that opens in Excel, Numbers or Google Sheets.</p>
+    </div>
+  </section>
+
   <section class="view" id="v-acc">
+    <h2>Cloud sync</h2>
+    <div class="panel" id="cloud">
+      <div id="cOutBox">
+        <p class="note" style="margin-top:0">Sign in to keep your data safe in the cloud and see it on your phone and laptop.</p>
+        <button type="button" class="btn ghost gbtn" id="cGoogle" style="margin-top:4px"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5a5.6 5.6 0 0 1-2.4 3.6v3h3.9c2.2-2.1 3.5-5.1 3.5-8.8z"/><path fill="#34A853" d="M12 24c3.2 0 6-1.1 8-2.9l-3.9-3c-1.1.7-2.5 1.2-4.1 1.2-3.1 0-5.8-2.1-6.7-5H1.3v3.1A12 12 0 0 0 12 24z"/><path fill="#FBBC05" d="M5.3 14.3a7.2 7.2 0 0 1 0-4.6V6.6h-4a12 12 0 0 0 0 10.8z"/><path fill="#EA4335" d="M12 4.8c1.8 0 3.3.6 4.6 1.8l3.4-3.4A12 12 0 0 0 1.3 6.6l4 3.1c.9-2.8 3.6-4.9 6.7-4.9z"/></svg>Continue with Google</button>
+        <div class="or"><span>or with email</span></div>
+        <label for="cEmail">Email</label><input id="cEmail" type="email" autocomplete="email" inputmode="email">
+        <label for="cPass">Password (at least 8 characters)</label><input id="cPass" type="password" autocomplete="current-password">
+        <div class="row"><button type="button" class="btn" id="cSignIn">Sign in</button><button type="button" class="btn ghost" id="cSignUp">Create account</button></div>
+        <button type="button" class="linkbtn" id="cReset" style="margin-top:6px">Forgot password?</button>
+      </div>
+      <div id="cInBox" hidden>
+        <div class="row" style="align-items:center"><div style="flex:1"><b id="cWho"></b><div class="note" id="cStat" style="margin:2px 0 0"></div></div><button type="button" class="btn ghost" id="cSignOut" style="width:auto;flex:none;margin:0;padding:0 16px">Sign out</button></div>
+      </div>
+      <p class="note" id="cErr" role="alert" style="color:var(--mag)"></p>
+    </div>
     <h2>My accounts</h2>
     <p class="note" style="margin:-4px 0 10px">Use the arrows to change the order the cards appear in.</p>
     <div class="panel"><ul class="tx acclist" id="accList"></ul></div>
@@ -232,20 +337,37 @@ header h1,header .sub,.net span{color:rgb(255 255 255/.72)}
     <div class="panel"><div class="chips" id="catList"></div>
       <form id="fCat" class="row" style="margin-top:12px;align-items:end"><div><label for="cName">Add a type</label><input id="cName" placeholder="e.g. Gym, Medical" required></div><button class="btn" style="flex:none;width:auto;padding:0 20px;margin:0">Add</button></form>
       <p class="note">Tap × on a type to remove it. Past expenses keep their type.</p></div>
+    <h2>Security</h2>
+    <div class="panel">
+      <div class="row" style="align-items:center"><div style="flex:1"><b>App lock (PIN)</b><div class="note" style="margin:2px 0 0" id="secState">Off</div></div><button type="button" class="btn ghost" id="secBtn" style="width:auto;flex:none;margin:0;padding:0 18px">Turn on</button></div>
+      <div id="secSetup" hidden>
+        <div class="row"><div><label for="pin1">New PIN (4–6 digits)</label><input id="pin1" type="password" inputmode="numeric" maxlength="6" autocomplete="new-password"></div>
+        <div><label for="pin2">Repeat PIN</label><input id="pin2" type="password" inputmode="numeric" maxlength="6" autocomplete="new-password"></div></div>
+        <button type="button" class="btn" id="pinSave">Save PIN</button>
+      </div>
+      <div id="bioRow" hidden class="row" style="align-items:center;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)"><div style="flex:1"><b>Face ID / fingerprint</b><div class="note" style="margin:2px 0 0" id="bioState">Off</div></div><button type="button" class="btn ghost" id="bioBtn" style="width:auto;flex:none;margin:0;padding:0 18px">Turn on</button></div>
+      <p class="note">The lock is set separately on each device. It locks again after a minute in the background. Your PIN is the backup if Face ID or fingerprint fails.</p>
+    </div>
     <h2>Backup</h2>
     <div class="panel">
-      <p class="note" style="margin-top:0">Your data is saved only on this phone. Make a backup now and then, so you don't lose it if you delete the app or change phones.</p>
+      <p class="note" style="margin-top:0">Signed in? Your data is already saved in your account. Not signed in? It is saved only on this device, so make a backup now and then.</p>
       <div class="row"><button type="button" class="btn ghost" id="bkOut" style="margin-top:8px">Save backup</button>
       <label class="btn ghost" style="margin-top:8px;display:flex;align-items:center;justify-content:center;color:var(--ink)">Restore backup<input type="file" id="bkIn" accept=".json,application/json" hidden></label></div>
     </div>
   </section>
 </div>
 
+<div id="cDlg" class="dlg" hidden><div class="dlgbox" role="dialog" aria-modal="true" aria-labelledby="cDlgT">
+  <h2 id="cDlgT">Which data should we keep?</h2>
+  <p id="cDlgTxt" class="note"></p>
+  <button type="button" class="btn" id="cUseCloud">Use the data in my account</button>
+  <button type="button" class="btn ghost" id="cUseLocal">Replace it with this device's data</button>
+</div></div>
 <nav>
   <button data-v="home" aria-current="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span>Home</span></button>
-  <button data-v="out"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12h8"/></svg><span>Expense</span></button>
-  <button data-v="in"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg><span>Income</span></button>
+  <button data-v="out"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg><span>Add</span></button>
   <button data-v="fac"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span>Installments</span></button>
+  <button data-v="rep"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg><span>Reports</span></button>
   <button data-v="acc"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2.5" y="6" width="19" height="13" rx="2"/><path d="M2.5 10.5h19M6.5 15h4"/></svg><span>Accounts</span></button>
 </nav>
 <div class="toast" id="toast"><span id="toastMsg"></span><button id="undo">Undo</button></div>
@@ -264,7 +386,7 @@ const ago=d=>{const x=new Date();x.setDate(x.getDate()-d);return x.toISOString()
 const uid=()=>Math.random().toString(36).slice(2,9);
 const addM=(m,n)=>{let[y,mo]=m.split('-').map(Number);mo+=n;y+=Math.floor((mo-1)/12);mo=((mo-1)%12+12)%12+1;return y+'-'+String(mo).padStart(2,'0')};
 const mName=(m,len='short')=>{const[y,mo]=m.split('-').map(Number);return new Date(y,mo-1,1).toLocaleDateString('en-GB',{month:len,year:'numeric'})};
-const demo=()=>{const cm=new Date().toISOString().slice(0,7);return{demo:true,cats:[...BASE_CATS],
+const demo=()=>{const cm=new Date().toISOString().slice(0,7);return{demo:true,cats:[...BASE_CATS],budgets:{'Food & home':3000,'School':2000,'Gifts':1000,'Transport':1500},budgetTotal:22000,
   facs:[{id:'f1',name:'Car loan',type:'Loan',amt:10000,day:1,count:36,prior:8,start:addM(cm,-8),acc:'nbe',paid:[cm]},
     {id:'f2',name:'School fees',type:'School',amt:6500,day:10,count:4,prior:1,start:addM(cm,-1),acc:'cib',paid:[]},
     {id:'f3',name:'iPhone installment',type:'Credit card bill',amt:1450,day:25,count:12,prior:3,start:addM(cm,-3),acc:'cib',paid:[]}],
@@ -286,7 +408,7 @@ const accStyle=a=>{const t=atOf(a.type);if(!t||t.c==null)return '';const[c1,c2]=
 const addAT=label=>{label=label.trim();if(!label)return null;
   const ex=S.atypes.find(t=>t.label.toLowerCase()===label.toLowerCase());if(ex)return ex;
   const t={id:'t'+uid(),label,c:S.atypes.filter(x=>x.c!=null).length};S.atypes.push(t);return t};
-const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}};
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}window.__cloudPush&&window.__cloudPush()};
 const $=id=>document.getElementById(id);
 const fmt=n=>(n<0?'−':'')+Math.abs(Math.round(n)).toLocaleString('en-US')+' EGP';
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -308,8 +430,27 @@ function render(){
   const inc=m.filter(t=>t.kind==='in').reduce((s,t)=>s+t.amt,0),exp=m.filter(t=>t.kind==='out').reduce((s,t)=>s+t.amt,0);
   $('sum').innerHTML=`<div><span>Income this month</span><b class="in">${fmt(inc)}</b></div><div><span>Spent this month</span><b class="out">${fmt(exp)}</b></div><div><span>Left</span><b>${fmt(inc-exp)}</b></div>`;
   const by={};m.filter(t=>t.kind==='out').forEach(t=>by[t.cat]=(by[t.cat]||0)+t.amt);
-  const rows=Object.entries(by).sort((a,b)=>b[1]-a[1]),mx=rows[0]?.[1]||1;
-  $('bars').innerHTML=rows.length?rows.map(([c,v])=>`<div class="r"><span>${esc(c)}</span><div class="t"><div class="f" style="width:${v/mx*100}%"></div></div><b>${fmt(v)}</b></div>`).join(''):'<div class="empty">No spending this month yet</div>';
+  const B=S.budgets||{};
+  const cats=[...new Set([...Object.keys(by),...Object.keys(B).filter(k=>B[k]>0)])];
+  const lvl=p=>p>=1?'over':p>=.8?'warn':'ok';
+  const rws=cats.map(c=>({c,v:by[c]||0,b:B[c]||0})).map(x=>({...x,p:x.b?x.v/x.b:null}));
+  rws.sort((a,b)=>(b.p??-1)-(a.p??-1)||b.v-a.v);
+  const mx=Math.max(1,...rws.map(x=>x.v));
+  const bar=x=>x.b?`<div class="t"><div class="f ${lvl(x.p)}" style="width:${Math.min(1,x.p)*100}%"></div></div><span class="v"><b>${fmt(x.v)}</b><small>${x.p>=1?`${fmt(x.v-x.b)} over`:`${fmt(x.b-x.v)} left`} · ${Math.round(x.p*100)}%</small></span>`
+    :`<div class="t"><div class="f" style="width:${x.v/mx*100}%"></div></div><span class="v"><b>${fmt(x.v)}</b><small>No budget</small></span>`;
+  let html=rws.map(x=>`<div class="r"><span>${esc(x.c)}</span>${bar(x)}</div>`).join('');
+  if(S.budgetTotal>0){const t={v:exp,b:S.budgetTotal,p:exp/S.budgetTotal};html+=`<div class="r tot"><span><b>Total</b></span>${bar(t)}</div>`}
+  $('bars').innerHTML=html||'<div class="empty">No spending this month yet</div>';
+  const over=rws.filter(x=>x.p>=1),near=rws.filter(x=>x.p>=.8&&x.p<1);
+  const totOver=S.budgetTotal>0&&exp>=S.budgetTotal,totNear=S.budgetTotal>0&&!totOver&&exp>=.8*S.budgetTotal;
+  const ic='<svg viewBox="0 0 24 24"><path d="M12 9v4M12 17h.01M10.3 3.9L2.4 18a2 2 0 0 0 1.7 3h15.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>';
+  const list=a=>a.map(x=>`<b>${esc(x.c)}</b> (${Math.round(x.p*100)}%)`).join(', ');
+  $('budgetAlert').innerHTML=(over.length||totOver?`<div class="balert over">${ic}<div>${totOver?`You've gone over your <b>total monthly budget</b> by ${fmt(exp-S.budgetTotal)}.`:''}${over.length?` Over budget: ${list(over)}.`:''}</div></div>`:'')
+    +(near.length||totNear?`<div class="balert warn">${ic}<div>${totNear?`You've used ${Math.round(exp/S.budgetTotal*100)}% of your total monthly budget.`:''}${near.length?` Close to the limit: ${list(near)}.`:''}</div></div>`:'');
+  {const ks=[...new Set([...S.cats,...Object.keys(B)])];const cur=$('bEdit').hidden;
+   if(!cur&&document.activeElement&&$('bEdit').contains(document.activeElement)){}else
+   $('bRows').innerHTML=ks.map(c=>`<div class="row"><span style="flex:1">${esc(c)}</span><input type="number" inputmode="decimal" min="0" step="any" placeholder="No limit" data-bud="${esc(c)}" value="${B[c]||''}"></div>`).join('');
+   if(document.activeElement!==$('bTotal'))$('bTotal').value=S.budgetTotal||''}
   const all=[...S.tx].sort((a,b)=>b.date.localeCompare(a.date));
   $('list').innerHTML=all.length?all.slice(0,30).map(t=>`<li><div class="m"><b>${esc(t.cat)}${t.note?' · '+esc(t.note):''}</b><span>${t.kind==='in'?'Into':'From'} ${esc(accName(t.acc))} · ${t.date}</span></div><span class="a ${t.kind}">${t.kind==='in'?'+':'−'}${fmt(t.amt)}</span><button class="del" data-id="${t.id}" aria-label="Delete">×</button></li>`).join(''):'<li class="empty">No activity yet — start with “+ Expense” or “+ Income”</li>';
   $('accList').innerHTML=S.accounts.map((a,i,arr)=>`<li><div class="m"><b>${esc(a.name)}</b><span>${esc(typeLabel(a.type))} · starting balance</span><input type="number" inputmode="decimal" step="any" data-start="${a.id}" value="${a.start}" aria-label="Starting balance" style="margin-top:4px;max-width:160px"></div><span class="a">${fmt(bal(a))}</span>${arr.length>1?`<div class="mv"><button data-mv="${a.id}" data-d="-1" aria-label="Move ${esc(a.name)} up"${i===0?' disabled':''}><svg viewBox="0 0 24 24"><path d="M6 15l6-6 6 6"/></svg></button><button data-mv="${a.id}" data-d="1" aria-label="Move ${esc(a.name)} down"${i===arr.length-1?' disabled':''}><svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button></div><button class="del" data-acc="${a.id}" aria-label="Delete account">×</button>`:''}</li>`).join('');
@@ -325,11 +466,13 @@ function render(){
   $('net').textContent=fmt(S.accounts.reduce((s,a)=>s+bal(a),0));
   $('demoNote').hidden=!S.demo;
   renderFac();
+  renderUpcoming();
+  if($('v-rep').classList.contains('on'))renderRep();
 }
 chips($('srcs'),SRCS.map(c=>[c,c]),inSrc,v=>{inSrc=v;$('srcBox').hidden=v!=='Other'});
 
 const show=v=>{document.querySelectorAll('.view').forEach(s=>s.classList.toggle('on',s.id==='v-'+v));
-  document.querySelectorAll('nav button').forEach(b=>b.setAttribute('aria-current',b.dataset.v===v));scrollTo(0,0)};
+  document.querySelectorAll('nav button').forEach(b=>b.setAttribute('aria-current',b.dataset.v===v||(v==='in'&&b.dataset.v==='out')));if(v==='rep')renderRep();scrollTo(0,0)};
 document.querySelector('nav').onclick=e=>{const b=e.target.closest('button');if(b)show(b.dataset.v)};
 
 let undoFn=null,tm;
@@ -347,7 +490,7 @@ $('fOut').onsubmit=e=>{e.preventDefault();
   const amt=+$('oAmt').value;if(!(amt>0))return;
   S.tx.push({id:uid(),kind:'out',amt,acc:outAcc,cat,note:$('oNote').value.trim(),date:$('oDate').value});
   save();render();$('oAmt').value=$('oNote').value=$('oCatOther').value='';
-  toast(`Saved ${fmt(amt)} — taken from ${accName(outAcc)}`);show('home')};
+  toast(`Saved ${fmt(amt)} — taken from ${accName(outAcc)}`+budgetNote(cat));show('home')};
 $('fIn').onsubmit=e=>{e.preventDefault();
   if(!inAcc){toast('Add an account first');show('acc');return}
   let cat=inSrc;if(cat==='Other'){cat=$('iSrcOther').value.trim()||'Other'}
@@ -439,6 +582,121 @@ $('fAT').onsubmit=e=>{e.preventDefault();const t=addAT($('atName').value);save()
 $('atList').onclick=e=>{const b=e.target.closest('[data-at]');if(!b)return;const t=atOf(b.dataset.at);
   if(S.accounts.some(a=>a.type===t.id)){toast(`“${t.label}” is used by an account — change or remove that account first`);return}
   const i=S.atypes.indexOf(t);S.atypes.splice(i,1);save();render();toast(`“${t.label}” removed`,()=>S.atypes.splice(i,0,t))};
+$('bEditBtn').onclick=()=>{const h=!$('bEdit').hidden;$('bEdit').hidden=h;$('bEditBtn').textContent=h?'Set budgets':'Close';if(!h)render()};
+$('bDone').onclick=()=>{$('bEdit').hidden=true;$('bEditBtn').textContent='Set budgets';render();toast('Budgets saved')};
+$('bRows').oninput=e=>{const i=e.target.closest('[data-bud]');if(!i)return;S.budgets=S.budgets||{};const v=+i.value;
+  if(v>0)S.budgets[i.dataset.bud]=v;else delete S.budgets[i.dataset.bud];save();render()};
+$('bTotal').oninput=()=>{S.budgetTotal=+$('bTotal').value||0;save();render()};
+const budgetNote=cat=>{const b=(S.budgets||{})[cat];if(!b)return '';
+  const sp=S.tx.filter(t=>t.kind==='out'&&t.cat===cat&&t.date.startsWith(ym)).reduce((s,t)=>s+t.amt,0),p=sp/b;
+  return p>=1?` ⚠ ${cat} is over budget (${Math.round(p*100)}%)`:p>=.8?` ⚠ ${cat} at ${Math.round(p*100)}% of budget`:''};
+let rm=ym;
+const sumM=(m,k,f=()=>true)=>S.tx.filter(t=>t.kind===k&&t.date.startsWith(m)&&f(t)).reduce((s,t)=>s+t.amt,0);
+function renderRep(){
+  $('rMonth').textContent=mName(rm,'long');$('rNext').disabled=rm>=ym;
+  const inc=sumM(rm,'in'),out=sumM(rm,'out'),net=inc-out,rate=inc>0?Math.round(net/inc*100):null;
+  $('rSum').innerHTML=`<div><span>Income</span><b class="in">${fmt(inc)}</b></div><div><span>Spent</span><b class="out">${fmt(out)}</b></div><div><span>${net>=0?'Saved':'Overspent'}${rate!==null?` · ${Math.abs(rate)}%`:''}</span><b>${fmt(net)}</b></div>`;
+  const end=rm<addM(ym,-5)?rm:ym,ms6=[...Array(6)].map((_,i)=>addM(end,i-5));
+  const vals=ms6.map(m=>({m,i:sumM(m,'in'),o:sumM(m,'out')})),mx=Math.max(1,...vals.flatMap(v=>[v.i,v.o]));
+  $('rChart').innerHTML=vals.map(v=>`<button type="button" data-m="${v.m}" aria-current="${v.m===rm}" aria-label="${mName(v.m,'long')}: income ${fmt(v.i)}, spent ${fmt(v.o)}"><span class="bs"><i class="li" style="height:${v.i/mx*100}%"></i><i class="lo" style="height:${v.o/mx*100}%"></i></span>${mName(v.m).split(' ')[0]}</button>`).join('');
+  const prev=addM(rm,-1),by={},pb={};
+  S.tx.filter(t=>t.kind==='out').forEach(t=>{if(t.date.startsWith(rm))by[t.cat]=(by[t.cat]||0)+t.amt;if(t.date.startsWith(prev))pb[t.cat]=(pb[t.cat]||0)+t.amt});
+  const cats=Object.entries(by).sort((a,b)=>b[1]-a[1]);
+  const chg=(v,p)=>{if(!p)return '<small>new this month</small>';const d=Math.round((v-p)/p*100);return d===0?'<small>same as last month</small>':`<small class="${d>0?'up':'down'}">${d>0?'▲':'▼'} ${Math.abs(d)}% vs ${mName(prev).split(' ')[0]}</small>`};
+  $('rCats').innerHTML=cats.length?cats.map(([c,v])=>`<div class="rrow"><b>${esc(c)}</b><b>${fmt(v)}</b><small>${Math.round(v/out*100)}% of spending</small>${chg(v,pb[c])}<div class="t"><i style="width:${v/cats[0][1]*100}%"></i></div></div>`).join(''):'<div class="empty">No spending in this month</div>';
+  const ba=S.accounts.map(a=>({a,o:sumM(rm,'out',t=>t.acc===a.id),i:sumM(rm,'in',t=>t.acc===a.id)})).filter(x=>x.o||x.i);
+  $('rAccs').innerHTML=ba.length?ba.map(x=>`<div class="rrow"><b>${esc(x.a.name)}</b><b>${fmt(x.o)}</b><small>${esc(typeLabel(x.a.type))}</small><small>${x.i?`+${fmt(x.i)} in`:''}</small></div>`).join(''):'<div class="empty">No activity in this month</div>';
+  const top=S.tx.filter(t=>t.kind==='out'&&t.date.startsWith(rm)).sort((a,b)=>b.amt-a.amt).slice(0,5);
+  $('rTop').innerHTML=top.length?top.map(t=>`<li><div class="m"><b>${esc(t.cat)}${t.note?' · '+esc(t.note):''}</b><span>${esc(accName(t.acc))} · ${t.date}</span></div><span class="a out">−${fmt(t.amt)}</span></li>`).join(''):'<li class="empty">Nothing yet</li>';
+}
+async function shareFile(name,text,mime){
+  const blob=new Blob([text],{type:mime});
+  try{const file=new File([blob],name,{type:mime});if(navigator.canShare&&navigator.canShare({files:[file]})){await navigator.share({files:[file],title:name});return}}catch(e){if(e&&e.name==='AbortError')return}
+  try{const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);toast(`${name} saved`)}catch(e){toast('Saving files is not available here')}
+}
+const csvQ=v=>{v=String(v??'');return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v};
+const toCsv=list=>'﻿'+[['Date','Type','Category / source','Note','Account','Amount (EGP)'],...list.sort((a,b)=>a.date.localeCompare(b.date)).map(t=>[t.date,t.kind==='in'?'Income':'Expense',t.cat,t.note||'',accName(t.acc),(t.kind==='in'?1:-1)*t.amt])].map(r=>r.map(csvQ).join(',')).join('\r\n');
+$('rCsvM').onclick=()=>shareFile(`financial-app-${rm}.csv`,toCsv(S.tx.filter(t=>t.date.startsWith(rm))),'text/csv');
+$('rCsvAll').onclick=()=>shareFile(`financial-app-all-${today()}.csv`,toCsv([...S.tx]),'text/csv');
+$('rPrev').onclick=()=>{rm=addM(rm,-1);renderRep()};
+$('rNext').onclick=()=>{if(rm<ym){rm=addM(rm,1);renderRep()}};
+$('rChart').onclick=e=>{const b=e.target.closest('[data-m]');if(b){rm=b.dataset.m;renderRep()}};
+document.querySelectorAll('.seg').forEach(s=>s.onclick=e=>{const b=e.target.closest('[data-go]');if(b)show(b.dataset.go)});
+// ---- App lock (PIN + Face ID / fingerprint via WebAuthn) ----
+const LK='finapp-lock';
+const getLock=()=>{try{return JSON.parse(localStorage.getItem(LK))}catch(e){return null}};
+const setLock=v=>{try{v?localStorage.setItem(LK,JSON.stringify(v)):localStorage.removeItem(LK)}catch(e){}};
+const rnd=n=>crypto.getRandomValues(new Uint8Array(n));
+const b64=buf=>btoa(String.fromCharCode(...new Uint8Array(buf))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+const unb64=s=>{s=s.replace(/-/g,'+').replace(/_/g,'/');s+='='.repeat((4-s.length%4)%4);return Uint8Array.from(atob(s),c=>c.charCodeAt(0))};
+const hashPin=async(pin,salt)=>b64(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(salt+':'+pin)));
+const bioAvail=async()=>{try{return !!(window.PublicKeyCredential&&await PublicKeyCredential.isUserVerifyingPlatformAuthenticatorAvailable())}catch(e){return false}};
+let fails=0,blockUntil=0,hidAt=0;
+const unlock=()=>{$('lock').hidden=true;$('lockPin').value='';$('lockErr').textContent=''};
+const lockNow=()=>{const L=getLock();if(!L)return;$('lock').hidden=false;$('lockBio').hidden=!L.cred;$('lockPin').value='';$('lockErr').textContent=''};
+const tryBio=async silent=>{const L=getLock();if(!L||!L.cred)return;
+  try{await navigator.credentials.get({publicKey:{challenge:rnd(32),allowCredentials:[{type:'public-key',id:unb64(L.cred)}],userVerification:'required',timeout:60000}});unlock()}
+  catch(e){if(!silent)$('lockErr').textContent='Face ID / fingerprint didn’t work. Use your PIN.'}};
+const tryPin=async()=>{const L=getLock(),v=$('lockPin').value;if(!L||!v)return;
+  if(Date.now()<blockUntil){$('lockErr').textContent=`Too many tries. Wait ${Math.ceil((blockUntil-Date.now())/1000)} seconds.`;return}
+  if(await hashPin(v,L.salt)===L.hash){fails=0;unlock()}
+  else{fails++;$('lockPin').value='';if(fails>=5){blockUntil=Date.now()+30000;fails=0;$('lockErr').textContent='Too many tries. Wait 30 seconds.'}else $('lockErr').textContent='Wrong PIN'}};
+$('lockBio').onclick=()=>tryBio(false);
+$('lockGo').onclick=tryPin;
+$('lockPin').onkeydown=e=>{if(e.key==='Enter')tryPin()};
+$('lockPin').oninput=()=>{const L=getLock();if(L&&$('lockPin').value.length===L.len)tryPin()};
+document.addEventListener('visibilitychange',()=>{if(document.hidden)hidAt=Date.now();else if(getLock()&&hidAt&&Date.now()-hidAt>60000){lockNow();tryBio(true)}});
+function renderSec(){const L=getLock();
+  $('secState').textContent=L?'On':'Off';$('secBtn').textContent=L?'Turn off':'Turn on';$('bioRow').hidden=!L;
+  $('bioState').textContent=L&&L.cred?'On for this device':'Off';$('bioBtn').textContent=L&&L.cred?'Turn off':'Turn on'}
+$('secBtn').onclick=()=>{const L=getLock();
+  if(L){setLock(null);renderSec();toast('App lock turned off',()=>{setLock(L);renderSec()})}
+  else{$('secSetup').hidden=!$('secSetup').hidden;if(!$('secSetup').hidden)$('pin1').focus()}};
+$('pinSave').onclick=async()=>{const a=$('pin1').value,b=$('pin2').value;
+  if(!/^\d{4,6}$/.test(a)){toast('PIN must be 4 to 6 digits');return}
+  if(a!==b){toast('The two PINs don’t match');return}
+  try{const salt=b64(rnd(16));setLock({salt,hash:await hashPin(a,salt),len:a.length,cred:null})}catch(e){toast('App lock is not available in this browser');return}
+  $('pin1').value=$('pin2').value='';$('secSetup').hidden=true;renderSec();
+  toast((await bioAvail())?'PIN set. You can turn on Face ID / fingerprint too.':'PIN set')};
+$('bioBtn').onclick=async()=>{const L=getLock();if(!L)return;
+  if(L.cred){delete L.cred;setLock(L);renderSec();toast('Face ID / fingerprint turned off');return}
+  if(!(await bioAvail())){toast('Face ID / fingerprint isn’t available here. Open the app from your home screen.');return}
+  try{const c=await navigator.credentials.create({publicKey:{challenge:rnd(32),rp:{name:'Financial App'},user:{id:rnd(16),name:'Financial App',displayName:'Financial App'},
+      pubKeyCredParams:[{type:'public-key',alg:-7},{type:'public-key',alg:-257}],authenticatorSelection:{authenticatorAttachment:'platform',userVerification:'required',residentKey:'discouraged'},timeout:60000,attestation:'none'}});
+    L.cred=b64(c.rawId);setLock(L);renderSec();toast('Face ID / fingerprint turned on')}
+  catch(e){toast(e&&e.name==='NotAllowedError'?'Cancelled, or not allowed here. Try from the app on your home screen.':'Couldn’t turn it on on this device')}};
+renderSec();
+if(getLock()){lockNow();tryBio(true)}
+
+// ---- Installment reminders ----
+const dim=m=>{const[y,mo]=m.split('-').map(Number);return new Date(y,mo,0).getDate()};
+const dueDate=(f,m)=>m+'-'+String(Math.min(f.day,dim(m))).padStart(2,'0');
+const daysTo=d=>Math.round((new Date(d+'T00:00:00')-new Date(today()+'T00:00:00'))/864e5);
+function nextDue(f){const i=facInfo(f);if(i.left<=0)return null;
+  const m=i.paidNow?addM(ym,1):(ym<f.start?f.start:ym);if(i.paidNow&&i.left<=0)return null;return{m,d:dueDate(f,m),n:daysTo(dueDate(f,m))}}
+const payFac=id=>{const f=S.facs.find(x=>x.id===id);if(!f||f.paid.includes(ym))return;
+  const t={id:uid(),kind:'out',amt:f.amt,acc:f.acc,cat:f.type,note:f.name,date:today(),fac:f.id,fm:ym};
+  S.tx.push(t);f.paid.push(ym);save();render();toast(`${fmt(f.amt)} paid from ${accName(f.acc)}`,()=>{S.tx=S.tx.filter(x=>x!==t);f.paid=f.paid.filter(m=>m!==ym)})};
+function renderUpcoming(){
+  const L=S.facs.map(f=>({f,u:nextDue(f)})).filter(x=>x.u&&x.u.n<=7).sort((a,b)=>a.u.n-b.u.n);
+  const when=n=>n<0?`Overdue ${-n} day${n===-1?'':'s'}`:n===0?'Due today':n===1?'Due tomorrow':`Due in ${n} days`;
+  $('upcoming').innerHTML=L.length?`<div class="upc"><h3>Coming up</h3><ul>${L.map(({f,u})=>`<li><div class="m"><b>${esc(f.name)} · ${fmt(f.amt)}</b><span class="${u.n<=2?'soon':'later'}">${when(u.n)}</span><span class="later"> · ${esc(accName(f.acc))}</span></div>${u.m===ym?`<button type="button" data-upay="${f.id}">Mark paid</button>`:''}</li>`).join('')}</ul></div>`:'';
+}
+$('upcoming').onclick=e=>{const b=e.target.closest('[data-upay]');if(b)payFac(b.dataset.upay)};
+const icsTxt=s=>String(s).replace(/\\/g,'\\\\').replace(/([,;])/g,'\\$1').replace(/\n/g,'\\n');
+$('calBtn').onclick=()=>{
+  const stamp=new Date().toISOString().replace(/[-:]/g,'').replace(/\.\d+/,'');
+  const ev=[];
+  S.facs.forEach(f=>{const i=facInfo(f);if(i.left<=0)return;let m=i.paidNow?addM(ym,1):(ym<f.start?f.start:ym);const startN=i.paid+1;
+    for(let k=0;k<Math.min(i.left,60);k++,m=addM(m,1)){const d=dueDate(f,m).replace(/-/g,''),nx=new Date(+d.slice(0,4),+d.slice(4,6)-1,+d.slice(6)+1),d2=`${nx.getFullYear()}${String(nx.getMonth()+1).padStart(2,'0')}${String(nx.getDate()).padStart(2,'0')}`;
+      const title=`${f.name}: ${Math.round(f.amt).toLocaleString('en-US')} EGP (${startN+k}/${f.count})`;
+      ev.push(['BEGIN:VEVENT',`UID:${f.id}-${m}@financial-app`,`DTSTAMP:${stamp}`,`DTSTART;VALUE=DATE:${d}`,`DTEND;VALUE=DATE:${d2}`,`SUMMARY:${icsTxt(title)}`,
+        `DESCRIPTION:${icsTxt(`Installment from ${accName(f.acc)}. Added by Financial App.`)}`,'TRANSP:TRANSPARENT',
+        'BEGIN:VALARM','ACTION:DISPLAY',`DESCRIPTION:${icsTxt(f.name+' is due in 2 days')}`,'TRIGGER:-P1DT15H','END:VALARM',
+        'BEGIN:VALARM','ACTION:DISPLAY',`DESCRIPTION:${icsTxt(f.name+' is due tomorrow')}`,'TRIGGER:-PT15H','END:VALARM','END:VEVENT'].join('\r\n'))}});
+  if(!ev.length){toast('No upcoming installments to add');return}
+  shareFile('installment-reminders.ics',['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Financial App//EN','CALSCALE:GREGORIAN','METHOD:PUBLISH','X-WR-CALNAME:Installments',...ev,'END:VCALENDAR'].join('\r\n')+'\r\n','text/calendar');
+};
 $('clearDemo').onclick=()=>{S={cats:[...BASE_CATS],accounts:[{id:'cash',name:'Cash',type:'cash',start:0}],tx:[],facs:[],atypes:BASE_AT.map(t=>({...t}))};save();render();show('acc');toast('Set your cash balance and add your cards')};
 $('bkOut').onclick=()=>{try{
   const blob=new Blob([JSON.stringify(S,null,1)],{type:'application/json'}),u=URL.createObjectURL(blob),a=document.createElement('a');
@@ -447,9 +705,65 @@ $('bkIn').onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileRe
   r.onload=()=>{try{const d=JSON.parse(r.result);if(!Array.isArray(d.accounts)||!Array.isArray(d.tx))throw 0;
     const old=S;S=d;if(!S.cats)S.cats=[...BASE_CATS];save();render();toast('Backup restored',()=>{S=old})}catch(x){toast('That file is not a Financial App backup')}};
   r.readAsText(f);e.target.value=''};
+window.App={get:()=>S,
+  set:v=>{S=v;if(!S.cats)S.cats=[...BASE_CATS];if(!S.facs)S.facs=[];if(!S.atypes)S.atypes=BASE_AT.map(t=>({...t}));try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}render()},
+  fresh:()=>({cats:[...BASE_CATS],accounts:[{id:'cash',name:'Cash',type:'cash',start:0}],tx:[],facs:[],atypes:BASE_AT.map(t=>({...t}))}),
+  toast:(m)=>toast(m),show:v=>show(v)};
 render();
 if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
 }
+</script>
+<script type="module">
+import {initializeApp} from 'https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js';
+import {getAuth,onAuthStateChanged,signInWithEmailAndPassword,createUserWithEmailAndPassword,sendPasswordResetEmail,signOut,GoogleAuthProvider,signInWithPopup} from 'https://www.gstatic.com/firebasejs/13.1.0/firebase-auth.js';
+import {initializeFirestore,persistentLocalCache,persistentSingleTabManager,doc,getDoc,setDoc,onSnapshot,serverTimestamp} from 'https://www.gstatic.com/firebasejs/13.1.0/firebase-firestore.js';
+const $=id=>document.getElementById(id), A=window.App;
+const fb=initializeApp({apiKey:"AIzaSyBlryIJU5S270ZO0W95kqTtDWBILkywqyE",authDomain:"financial-app-2fdb5.firebaseapp.com",projectId:"financial-app-2fdb5",storageBucket:"financial-app-2fdb5.firebasestorage.app",messagingSenderId:"69169427322",appId:"1:69169427322:web:e66f94b37f91bf7d2ddcc3"}), auth=getAuth(fb);
+let db;try{db=initializeFirestore(fb,{localCache:persistentLocalCache({tabManager:persistentSingleTabManager()})})}catch(e){db=initializeFirestore(fb,{})}
+const OWN='finapp-owner';
+let user=null,ref=null,unsub=null,lastJson='',pushT=null,ready=false;
+const err=m=>{$('cErr').textContent=m||''};
+const stat=m=>{$('cStat').textContent=m};
+const msg=e=>({'auth/invalid-credential':'Wrong email or password.','auth/wrong-password':'Wrong email or password.','auth/user-not-found':'No account with this email. Tap “Create account”.',
+ 'auth/email-already-in-use':'This email already has an account. Tap “Sign in”.','auth/weak-password':'Password must be at least 8 characters.','auth/invalid-email':'That email address doesn’t look right.',
+ 'auth/missing-password':'Enter your password.','auth/too-many-requests':'Too many tries. Wait a few minutes and try again.','auth/network-request-failed':'No internet connection.',
+ 'auth/popup-closed-by-user':'Google sign-in was closed.','auth/popup-blocked':'The Google window was blocked. Use email instead.',
+ 'auth/operation-not-supported-in-this-environment':'Google sign-in doesn’t work here. Use email and password.','auth/unauthorized-domain':'This website isn’t allowed in Firebase yet.'}[e&&e.code]||('Something went wrong'+(e&&e.code?` (${e.code})`:'')+'.'));
+const busy=(b)=>['cGoogle','cSignIn','cSignUp'].forEach(id=>$(id).disabled=b);
+const creds=()=>[$('cEmail').value.trim(),$('cPass').value];
+$('cSignIn').onclick=async()=>{const[e,p]=creds();err();busy(true);try{await signInWithEmailAndPassword(auth,e,p)}catch(x){err(msg(x))}busy(false)};
+$('cSignUp').onclick=async()=>{const[e,p]=creds();err();if(p.length<8){err('Password must be at least 8 characters.');return}busy(true);try{await createUserWithEmailAndPassword(auth,e,p)}catch(x){err(msg(x))}busy(false)};
+$('cReset').onclick=async()=>{const[e]=creds();err();if(!e){err('Write your email above first.');return}try{await sendPasswordResetEmail(auth,e);A.toast('Password reset email sent')}catch(x){err(msg(x))}};
+$('cGoogle').onclick=async()=>{err();busy(true);try{await signInWithPopup(auth,new GoogleAuthProvider())}catch(x){err(msg(x))}busy(false)};
+$('cSignOut').onclick=async()=>{if(unsub)unsub();unsub=null;const was=user;await signOut(auth);try{localStorage.removeItem(OWN)}catch(e){}
+  A.set(A.fresh());A.toast('Signed out. Your data is safe in your account.')};
+async function push(){if(!user||!ready)return;const s=A.get(),json=JSON.stringify(s);if(json===lastJson)return;lastJson=json;stat('Saving…');
+  try{await setDoc(ref,{json,updatedAt:serverTimestamp(),entries:s.tx.length});stat('Synced ✓ '+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}))}
+  catch(e){lastJson='';stat(e.code==='permission-denied'?'Not allowed: check the database rules':'Not synced yet, will retry')}}
+window.__cloudPush=()=>{if(!user||!ready)return;clearTimeout(pushT);pushT=setTimeout(push,400)};
+const isEmpty=s=>!s||((s.tx||[]).length===0&&(s.facs||[]).length===0&&(s.accounts||[]).length<=1);
+const ask=(cloud,local)=>new Promise(res=>{const c=JSON.parse(cloud);
+  $('cDlgTxt').textContent=`Your account already has data (${c.tx.length} entries, ${c.accounts.length} accounts). This device has different data (${local.tx.length} entries, ${local.accounts.length} accounts). Choose which one to keep on all your devices.`;
+  $('cDlg').hidden=false;$('cUseCloud').onclick=()=>{$('cDlg').hidden=true;res('cloud')};$('cUseLocal').onclick=()=>{$('cDlg').hidden=true;res('local')}});
+function listen(){if(unsub)unsub();unsub=onSnapshot(ref,snap=>{if(snap.metadata.hasPendingWrites)return;const d=snap.data();if(!d)return;
+  if(d.json!==JSON.stringify(A.get())){lastJson=d.json;try{A.set(JSON.parse(d.json));if(!snap.metadata.fromCache)A.toast('Updated from your other device')}catch(e){}}
+  if(!snap.metadata.fromCache)stat('Synced ✓ '+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}))},e=>stat('Sync paused: '+(e.code||'error')))}
+onAuthStateChanged(auth,async u=>{user=u;ready=false;$('cOutBox').hidden=!!u;$('cInBox').hidden=!u;err();
+  if(!u){stat('');return}
+  $('cWho').textContent=u.email||'Signed in';stat('Connecting…');$('cPass').value='';ref=doc(db,'users',u.uid);
+  let owner=null;try{owner=localStorage.getItem(OWN)}catch(e){}
+  try{
+    if(owner!==u.uid){
+      const snap=await getDoc(ref),local=A.get(),lj=JSON.stringify(local);
+      if(snap.exists()){const cj=snap.data().json;
+        if(cj!==lj){const pick=(local.demo||isEmpty(local))?'cloud':await ask(cj,local);
+          if(pick==='cloud'){lastJson=cj;A.set(JSON.parse(cj))}}}
+      else if(local.demo)A.set(A.fresh());
+      try{localStorage.setItem(OWN,u.uid)}catch(e){}
+    }
+    ready=true;await push();listen();
+  }catch(e){stat(e.code==='permission-denied'?'Not allowed: check the database rules':'Offline. Will sync when you’re back online');ready=true;listen()}
+});
 </script>
 </body>
 </html>
