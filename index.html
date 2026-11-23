@@ -237,6 +237,8 @@ header{display:flex;align-items:center;justify-content:space-between;gap:10px}
 [dir=rtl] .seg button,[dir=rtl] nav button{letter-spacing:0}
 .acc{cursor:pointer}.acclist li.flash{animation:fl 1.6s ease}@keyframes fl{0%,40%{background:color-mix(in srgb,var(--acc) 14%,transparent)}100%{background:transparent}}
 @media(prefers-reduced-motion:reduce){.acclist li.flash{animation:none;outline:2px solid var(--acc)}}
+.hname{min-width:0}.happ{font-size:13px;font-weight:500;color:rgb(255 255 255/.72);margin-top:1px;white-space:nowrap}
+.opt{font-weight:400;opacity:.75}
 </style>
 </head>
 <body>
@@ -285,6 +287,7 @@ window.setLang=function(l){lang=l;try{localStorage.setItem('finapp-lang',l)}catc
                 <button type="button" class="btn ghost gbtn" id="cGoogle" style="margin-top:4px"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5a5.6 5.6 0 0 1-2.4 3.6v3h3.9c2.2-2.1 3.5-5.1 3.5-8.8z"/><path fill="#34A853" d="M12 24c3.2 0 6-1.1 8-2.9l-3.9-3c-1.1.7-2.5 1.2-4.1 1.2-3.1 0-5.8-2.1-6.7-5H1.3v3.1A12 12 0 0 0 12 24z"/><path fill="#FBBC05" d="M5.3 14.3a7.2 7.2 0 0 1 0-4.6V6.6h-4a12 12 0 0 0 0 10.8z"/><path fill="#EA4335" d="M12 4.8c1.8 0 3.3.6 4.6 1.8l3.4-3.4A12 12 0 0 0 1.3 6.6l4 3.1c.9-2.8 3.6-4.9 6.7-4.9z"/></svg>Continue with Google</button>
         <div class="or"><span>or with email</span></div>
         <label for="cEmail">Email</label><input id="cEmail" type="email" autocomplete="email" inputmode="email">
+        <label for="cName">Your name <span class="opt">(for new accounts)</span></label><input id="cName" autocomplete="name">
         <label for="cPass">Password (at least 8 characters)</label><input id="cPass" type="password" autocomplete="current-password">
         <div class="row"><button type="button" class="btn" id="cSignIn">Sign in</button><button type="button" class="btn ghost" id="cSignUp">Create account</button></div>
         <button type="button" class="linkbtn" id="cReset" style="margin-top:6px">Forgot password?</button>
@@ -307,7 +310,7 @@ window.setLang=function(l){lang=l;try{localStorage.setItem('finapp-lang',l)}catc
 </div>
 <script>try{if(localStorage.getItem('finapp-lock'))document.getElementById('lock').hidden=false}catch(e){}</script>
 <div class="app">
-  <header><h1>Financial Manager App</h1><button type="button" class="langbtn" id="langBtn" data-noi18n>عربي</button></header>
+  <header><div class="hname"><h1>Financial Manager App</h1><div class="happ" id="hName" data-noi18n hidden></div></div><button type="button" class="langbtn" id="langBtn" data-noi18n>عربي</button></header>
   <div class="ttl" id="typeTotals" aria-label="Totals by account type"></div>
   <div class="wallet" id="wallet" aria-label="Your accounts"></div>
   <div class="sum" id="sum"></div>
@@ -437,9 +440,15 @@ window.setLang=function(l){lang=l;try{localStorage.setItem('finapp-lang',l)}catc
       <div class="row"><button type="button" class="btn ghost" id="bkOut" style="margin-top:8px">Save backup</button>
       <label class="btn ghost" style="margin-top:8px;display:flex;align-items:center;justify-content:center;color:var(--ink)">Restore backup<input type="file" id="bkIn" accept=".json,application/json" hidden></label></div>
     </div>
+    <h2>Danger zone</h2>
+    <div class="panel">
+      <div class="row" style="align-items:center"><div style="flex:1"><b>Reset all data</b><div class="note" style="margin:2px 0 0">Delete every account, entry, installment and budget, and start from zero.</div></div><button type="button" class="btn ghost" id="rsBtn" style="width:auto;flex:none;margin:0;padding:0 16px;color:var(--mag)">Reset</button></div>
+    </div>
     <h2>Your account</h2>
     <div class="panel" id="cloud">
       <div id="cInBox" hidden>
+        <label for="uName" style="margin-top:0">Your name</label>
+        <div class="row" style="align-items:center;margin-bottom:14px"><input id="uName" autocomplete="name"><button type="button" class="btn ghost" id="uNameSave" style="width:auto;flex:none;margin:0;padding:0 16px">Save</button></div>
         <div class="row" style="align-items:center"><div style="flex:1"><b id="cWho"></b><div class="note" id="cStat" style="margin:2px 0 0"></div></div><button type="button" class="btn ghost" id="cSignOut" style="width:auto;flex:none;margin:0;padding:0 16px">Sign out</button></div>
       </div>
     </div>
@@ -456,6 +465,13 @@ window.setLang=function(l){lang=l;try{localStorage.setItem('finapp-lang',l)}catc
   <p id="cDlgTxt" class="note"></p>
   <button type="button" class="btn" id="cUseCloud">Use the data in my account</button>
   <button type="button" class="btn ghost" id="cUseLocal">Replace it with this device's data</button>
+</div></div>
+<div id="rsDlg" class="dlg" hidden><div class="dlgbox" role="dialog" aria-modal="true" aria-labelledby="rsT">
+  <h2 id="rsT">Reset all data?</h2>
+  <p class="note">This deletes all your accounts, entries, installments and budgets, on this device and in your account on all your devices. It can’t be undone. Make a backup first if you might need them.</p>
+  <label for="rsIn">Type RESET to confirm</label><input id="rsIn" autocomplete="off" autocapitalize="characters">
+  <button type="button" class="btn" id="rsGo" disabled style="background:var(--mag)">Reset everything</button>
+  <button type="button" class="btn ghost" id="rsNo">Cancel</button>
 </div></div>
 <nav>
   <button data-v="home" aria-current="true"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg><span>Home</span></button>
@@ -845,6 +861,12 @@ $('calBtn').onclick=()=>{
   if(!ev.length){toast('No upcoming installments to add');return}
   shareFile('installment-reminders.ics',['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Financial Manager App//EN','CALSCALE:GREGORIAN','METHOD:PUBLISH','X-WR-CALNAME:Installments',...ev,'END:VCALENDAR'].join('\r\n')+'\r\n','text/calendar');
 };
+$('rsBtn').onclick=()=>{$('rsIn').value='';$('rsGo').disabled=true;$('rsDlg').hidden=false;$('rsIn').focus()};
+$('rsNo').onclick=()=>{$('rsDlg').hidden=true};
+$('rsIn').oninput=()=>{$('rsGo').disabled=$('rsIn').value.trim().toUpperCase()!=='RESET'};
+$('rsGo').onclick=()=>{if($('rsIn').value.trim().toUpperCase()!=='RESET')return;
+  S={cats:[...BASE_CATS],accounts:[{id:'cash',name:'Cash',type:'cash',start:0}],tx:[],facs:[],atypes:BASE_AT.map(t=>({...t}))};
+  save();render();$('rsDlg').hidden=true;show('acc');toast('All data was reset')};
 $('clearDemo').onclick=()=>{S={cats:[...BASE_CATS],accounts:[{id:'cash',name:'Cash',type:'cash',start:0}],tx:[],facs:[],atypes:BASE_AT.map(t=>({...t}))};save();render();show('acc');toast('Set your cash balance and add your cards')};
 $('bkOut').onclick=()=>{try{
   const blob=new Blob([JSON.stringify(S,null,1)],{type:'application/json'}),u=URL.createObjectURL(blob),a=document.createElement('a');
@@ -857,7 +879,10 @@ window.App={get:()=>S,
   set:v=>{S=v;if(!S.cats)S.cats=[...BASE_CATS];if(!S.facs)S.facs=[];if(!S.atypes)S.atypes=BASE_AT.map(t=>({...t}));try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}render()},
   fresh:()=>({cats:[...BASE_CATS],accounts:[{id:'cash',name:'Cash',type:'cash',start:0}],tx:[],facs:[],atypes:BASE_AT.map(t=>({...t}))}),
   toast:(m)=>toast(m),show:v=>show(v)};
-window.__rerender=()=>render();
+window.__uname=null;
+const renderHead=()=>{const n=window.__uname;$('hName').textContent=n||'';$('hName').hidden=!n};
+window.setUserName=n=>{window.__uname=n||null;renderHead()};
+window.__rerender=()=>{render();renderHead()};
 const syncLangBtn=()=>document.querySelectorAll('.langbtn').forEach(b=>b.textContent=LANG()==='ar'?'English':'عربي');
 document.querySelectorAll('.langbtn').forEach(b=>b.addEventListener('click',()=>{setLang(LANG()==='ar'?'en':'ar');syncLangBtn()}));
 syncLangBtn();
@@ -892,6 +917,7 @@ const msg=e=>{const c=e&&(e.code||e.name);return({invalid_credentials:'Wrong ema
   over_request_rate_limit:'Too many tries. Wait a few minutes and try again.',AuthRetryableFetchError:'No internet connection.',same_password:'The new password must be different.'}[c])||('Something went wrong'+(c?` (${c})`:'')+'.')};
 const busy=b=>['cSignIn','cSignUp'].forEach(id=>$(id).disabled=b);
 const creds=()=>[$('cEmail').value.trim(),$('cPass').value];
+const nameOf=u=>((u.user_metadata&&u.user_metadata.name)||'').trim()||(u.email||'').split('@')[0];
 
 // ---- app state <-> table rows ----
 const PK={account_types:'id',accounts:'id',categories:'name',installments:'id',transactions:'id',budgets:'category',settings:'one'};
@@ -948,7 +974,7 @@ const ask=(c,l)=>new Promise(res=>{$('cDlgTxt').textContent=`Your account alread
   $('cDlg').hidden=false;$('cUseCloud').onclick=()=>{$('cDlg').hidden=true;res('cloud')};$('cUseLocal').onclick=()=>{$('cDlg').hidden=true;res('local')}});
 async function start(u){
   user=u;ready=false;window.__gateReady=true;$('gLoad').hidden=true;$('gForm').hidden=false;$('gate').hidden=true;$('cInBox').hidden=false;
-  $('cWho').textContent=u.email||'Signed in';stat('Connecting…');$('cPass').value='';err();info('');
+  $('cWho').textContent=u.email||'Signed in';$('uName').value=(u.user_metadata&&u.user_metadata.name)||'';window.setUserName(nameOf(u));stat('Connecting…');$('cPass').value='';err();info('');
   let owner=null;try{owner=localStorage.getItem(OWN)}catch(e){}
   try{
     if(owner===u.id&&base){ready=true;await pushNow();await pull(true)}
@@ -963,17 +989,19 @@ async function start(u){
     listen();
   }catch(e){ready=true;stat(navigator.onLine?'Not synced yet, will retry':'Offline. Will sync when you’re back online');listen()}
 }
-function stop(){user=null;ready=false;window.__gateReady=true;if(chan){sb.removeChannel(chan);chan=null}$('gate').hidden=false;$('gLoad').hidden=true;$('gForm').hidden=false;$('cInBox').hidden=true}
+function stop(){user=null;ready=false;window.setUserName(null);window.__gateReady=true;if(chan){sb.removeChannel(chan);chan=null}$('gate').hidden=false;$('gLoad').hidden=true;$('gForm').hidden=false;$('cInBox').hidden=true}
 $('cSignIn').onclick=async()=>{const[e,p]=creds();err();if(!e||!p){err(!e?'Write your email above first.':'Enter your password.');return}busy(true);
   const{error}=await sb.auth.signInWithPassword({email:e,password:p});if(error)err(msg(error));busy(false)};
-$('cSignUp').onclick=async()=>{const[e,p]=creds();err();if(!e){err('Write your email above first.');return}if(p.length<8){err('Password must be at least 8 characters.');return}busy(true);
-  const{data,error}=await sb.auth.signUp({email:e,password:p,options:{emailRedirectTo:HERE}});busy(false);
+$('cSignUp').onclick=async()=>{const[e,p]=creds(),nm=$('cName').value.trim();err();if(!nm){err('Write your name first.');$('cName').focus();return}if(!e){err('Write your email above first.');return}if(p.length<8){err('Password must be at least 8 characters.');return}busy(true);
+  const{data,error}=await sb.auth.signUp({email:e,password:p,options:{emailRedirectTo:HERE,data:{name:nm}}});busy(false);
   if(error){err(msg(error));return}
   if(data.user&&Array.isArray(data.user.identities)&&data.user.identities.length===0){err('This email already has an account. Tap “Sign in”.');return}
   if(!data.session)info('Check your email to confirm your account, then come back and sign in.')};
 $('cReset').onclick=async()=>{const[e]=creds();err();if(!e){err('Write your email above first.');return}
   const{error}=await sb.auth.resetPasswordForEmail(e,{redirectTo:HERE});if(error)err(msg(error));else info('Password reset email sent')};
 $('cSignOut').onclick=async()=>{await sb.auth.signOut();try{localStorage.removeItem(OWN);localStorage.removeItem(BASE)}catch(e){}base=null;A.set(A.fresh());A.toast('Signed out. Your data is safe in your account.')};
+$('uNameSave').onclick=async()=>{const nm=$('uName').value.trim();if(!nm){A.toast('Write your name first.');return}
+  const{data,error}=await sb.auth.updateUser({data:{name:nm}});if(error){A.toast(msg(error));return}window.setUserName(nm);A.toast('Name saved')};
 $('npSave').onclick=async()=>{const p=$('npPass').value;if(p.length<8){A.toast('Password must be at least 8 characters.');return}
   const{error}=await sb.auth.updateUser({password:p});if(error){A.toast(msg(error));return}$('npDlg').hidden=true;$('npPass').value='';A.toast('Password updated')};
 sb.auth.onAuthStateChange((ev,session)=>{
