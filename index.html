@@ -211,6 +211,8 @@ header h1,header .sub,.net span{color:rgb(255 255 255/.72)}
 .gload[hidden],#gForm[hidden]{display:none}
 .gatebox .or{color:rgb(255 255 255/.6)}.gatebox .or::before,.gatebox .or::after{background:rgb(255 255 255/.2)}
 .gatebox .linkbtn{color:#bfdbfe;display:block;margin:8px auto 0}
+.ginfo{min-height:0;color:#bbf7d0;font-size:14px;text-align:center;margin:10px 0 0}.ginfo:empty{display:none}
+#cGoogle,#gForm .or{display:none}
 .gerr{min-height:1.4em;color:#fecaca;font-size:14px;text-align:center;margin:10px 0 0}
 .gload{display:flex;flex-direction:column;align-items:center;gap:12px;color:rgb(255 255 255/.8);padding:20px 0}
 .spin{width:28px;height:28px;border-radius:50%;border:3px solid rgb(255 255 255/.25);border-top-color:#fff;animation:sp 1s linear infinite}
@@ -287,6 +289,7 @@ window.setLang=function(l){lang=l;try{localStorage.setItem('finapp-lang',l)}catc
         <div class="row"><button type="button" class="btn" id="cSignIn">Sign in</button><button type="button" class="btn ghost" id="cSignUp">Create account</button></div>
         <button type="button" class="linkbtn" id="cReset" style="margin-top:6px">Forgot password?</button>
       </div>
+      <p id="cInfo" role="status" class="ginfo"></p>
       <p id="cErr" role="alert" class="gerr"></p>
     </div>
   </div>
@@ -443,6 +446,11 @@ window.setLang=function(l){lang=l;try{localStorage.setItem('finapp-lang',l)}catc
   </section>
 </div>
 
+<div id="npDlg" class="dlg" hidden><div class="dlgbox" role="dialog" aria-modal="true" aria-labelledby="npT">
+  <h2 id="npT">Set a new password</h2>
+  <label for="npPass">New password (at least 8 characters)</label><input id="npPass" type="password" autocomplete="new-password">
+  <button type="button" class="btn" id="npSave">Save password</button>
+</div></div>
 <div id="cDlg" class="dlg" hidden><div class="dlgbox" role="dialog" aria-modal="true" aria-labelledby="cDlgT">
   <h2 id="cDlgT">Which data should we keep?</h2>
   <p id="cDlgTxt" class="note"></p>
@@ -868,56 +876,114 @@ setTimeout(()=>{if(window.__gateReady)return;const t=document.getElementById('gL
 document.getElementById('gRetry').onclick=()=>location.reload();
 </script>
 <script type="module">
-import {initializeApp} from 'https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js';
-import {getAuth,onAuthStateChanged,signInWithEmailAndPassword,createUserWithEmailAndPassword,sendPasswordResetEmail,signOut,GoogleAuthProvider,signInWithPopup} from 'https://www.gstatic.com/firebasejs/13.1.0/firebase-auth.js';
-import {initializeFirestore,persistentLocalCache,persistentSingleTabManager,doc,getDoc,setDoc,onSnapshot,serverTimestamp} from 'https://www.gstatic.com/firebasejs/13.1.0/firebase-firestore.js';
-const $=id=>document.getElementById(id), A=window.App;
-const fb=initializeApp({apiKey:"AIzaSyBlryIJU5S270ZO0W95kqTtDWBILkywqyE",authDomain:"financial-app-2fdb5.firebaseapp.com",projectId:"financial-app-2fdb5",storageBucket:"financial-app-2fdb5.firebasestorage.app",messagingSenderId:"69169427322",appId:"1:69169427322:web:e66f94b37f91bf7d2ddcc3"}), auth=getAuth(fb);
-let db;try{db=initializeFirestore(fb,{localCache:persistentLocalCache({tabManager:persistentSingleTabManager()})})}catch(e){db=initializeFirestore(fb,{})}
-const OWN='finapp-owner';
-let user=null,ref=null,unsub=null,lastJson='',pushT=null,ready=false;
-const err=m=>{$('cErr').textContent=m||''};
+import {createClient} from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0/+esm';
+const SB_URL='https://qtijdwjskylsvjxllmup.supabase.co',SB_KEY='sb_publishable_BSYmAyKP3dkNNHzr6tHPgg_iXW5iuOQ';
+const $=id=>document.getElementById(id),A=window.App;
+const sb=createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+const OWN='finapp-owner-sb',BASE='finapp-base-sb',HERE=location.origin+location.pathname;
+let user=null,ready=false,pushing=null,pushAgain=false,pushT=null,chan=null,pullT=null;
+const err=m=>{$('cErr').textContent=m||'';if(m)$('cInfo').textContent=''};
+const info=m=>{$('cInfo').textContent=m||'';if(m)$('cErr').textContent=''};
 const stat=m=>{$('cStat').textContent=m};
-const msg=e=>({'auth/invalid-credential':'Wrong email or password.','auth/wrong-password':'Wrong email or password.','auth/user-not-found':'No account with this email. Tap “Create account”.',
- 'auth/email-already-in-use':'This email already has an account. Tap “Sign in”.','auth/weak-password':'Password must be at least 8 characters.','auth/invalid-email':'That email address doesn’t look right.',
- 'auth/missing-password':'Enter your password.','auth/too-many-requests':'Too many tries. Wait a few minutes and try again.','auth/network-request-failed':'No internet connection.',
- 'auth/popup-closed-by-user':'Google sign-in was closed.','auth/popup-blocked':'The Google window was blocked. Use email instead.',
- 'auth/operation-not-supported-in-this-environment':'Google sign-in doesn’t work here. Use email and password.','auth/unauthorized-domain':'This website isn’t allowed in Firebase yet.'}[e&&e.code]||('Something went wrong'+(e&&e.code?` (${e.code})`:'')+'.'));
-const busy=(b)=>['cGoogle','cSignIn','cSignUp'].forEach(id=>$(id).disabled=b);
+const when=()=>new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+const msg=e=>{const c=e&&(e.code||e.name);return({invalid_credentials:'Wrong email or password.',email_not_confirmed:'Email not confirmed yet. Check your inbox for our link.',
+  user_already_exists:'This email already has an account. Tap “Sign in”.',email_exists:'This email already has an account. Tap “Sign in”.',weak_password:'Password must be at least 8 characters.',
+  validation_failed:'That email address doesn’t look right.',email_address_invalid:'That email address doesn’t look right.',over_email_send_rate_limit:'Too many emails sent. Wait a few minutes and try again.',
+  over_request_rate_limit:'Too many tries. Wait a few minutes and try again.',AuthRetryableFetchError:'No internet connection.',same_password:'The new password must be different.'}[c])||('Something went wrong'+(c?` (${c})`:'')+'.')};
+const busy=b=>['cSignIn','cSignUp'].forEach(id=>$(id).disabled=b);
 const creds=()=>[$('cEmail').value.trim(),$('cPass').value];
-$('cSignIn').onclick=async()=>{const[e,p]=creds();err();busy(true);try{await signInWithEmailAndPassword(auth,e,p)}catch(x){err(msg(x))}busy(false)};
-$('cSignUp').onclick=async()=>{const[e,p]=creds();err();if(p.length<8){err('Password must be at least 8 characters.');return}busy(true);try{await createUserWithEmailAndPassword(auth,e,p)}catch(x){err(msg(x))}busy(false)};
-$('cReset').onclick=async()=>{const[e]=creds();err();if(!e){err('Write your email above first.');return}try{await sendPasswordResetEmail(auth,e);A.toast('Password reset email sent')}catch(x){err(msg(x))}};
-$('cGoogle').onclick=async()=>{err();busy(true);try{await signInWithPopup(auth,new GoogleAuthProvider())}catch(x){err(msg(x))}busy(false)};
-$('cSignOut').onclick=async()=>{if(unsub)unsub();unsub=null;const was=user;await signOut(auth);try{localStorage.removeItem(OWN)}catch(e){}
-  A.set(A.fresh());A.toast('Signed out. Your data is safe in your account.')};
-async function push(){if(!user||!ready)return;const s=A.get(),json=JSON.stringify(s);if(json===lastJson)return;lastJson=json;stat('Saving…');
-  try{await setDoc(ref,{json,updatedAt:serverTimestamp(),entries:s.tx.length});stat('Synced ✓ '+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}))}
-  catch(e){lastJson='';stat(e.code==='permission-denied'?'Not allowed: check the database rules':'Not synced yet, will retry')}}
-window.__cloudPush=()=>{if(!user||!ready)return;clearTimeout(pushT);pushT=setTimeout(push,400)};
+
+// ---- app state <-> table rows ----
+const PK={account_types:'id',accounts:'id',categories:'name',installments:'id',transactions:'id',budgets:'category',settings:'one'};
+const ORDER=['account_types','accounts','categories','installments','transactions','budgets','settings'];
+const STAMP={accounts:1,installments:1,transactions:1,settings:1};
+function toRows(S){return{
+  account_types:(S.atypes||[]).map((t,i)=>({id:t.id,label:t.label,color_index:t.c??null,sort:i})),
+  accounts:(S.accounts||[]).map((a,i)=>({id:a.id,name:a.name,type:a.type,start_balance:+a.start||0,sort:i})),
+  categories:(S.cats||[]).map((c,i)=>({name:c,sort:i})),
+  installments:(S.facs||[]).map(f=>({id:f.id,name:f.name,category:f.type,amount:+f.amt,due_day:+f.day,total_count:+f.count,paid_before:+f.prior||0,start_month:f.start,account_id:f.acc||null,paid_months:[...(f.paid||[])]})),
+  transactions:(S.tx||[]).map(t=>({id:t.id,kind:t.kind,amount:+t.amt,account_id:t.acc||null,category:t.cat,note:t.note||null,date:t.date,installment_id:t.fac||null,installment_month:t.fm||null})),
+  budgets:Object.entries(S.budgets||{}).filter(([,v])=>+v>0).map(([k,v])=>({category:k,monthly_limit:+v})),
+  settings:[{total_budget:+S.budgetTotal||0}]}}
+function fromRows(R){const by=(a,k='sort')=>[...a].sort((x,y)=>(x[k]??0)-(y[k]??0));const S={
+  atypes:by(R.account_types).map(t=>{const o={id:t.id,label:t.label};if(t.color_index!=null)o.c=t.color_index;return o}),
+  accounts:by(R.accounts).map(a=>({id:a.id,name:a.name,type:a.type,start:+a.start_balance})),
+  cats:by(R.categories).map(c=>c.name),
+  facs:R.installments.map(f=>({id:f.id,name:f.name,type:f.category,amt:+f.amount,day:+f.due_day,count:+f.total_count,prior:+f.paid_before,start:f.start_month,acc:f.account_id,paid:[...(f.paid_months||[])]})),
+  tx:R.transactions.map(t=>{const o={id:t.id,kind:t.kind,amt:+t.amount,acc:t.account_id,cat:t.category,date:String(t.date).slice(0,10)};if(t.note)o.note=t.note;if(t.installment_id){o.fac=t.installment_id;o.fm=t.installment_month}return o}),
+  budgets:Object.fromEntries(R.budgets.map(b=>[b.category,+b.monthly_limit])),
+  budgetTotal:+(R.settings[0]?.total_budget||0)};
+  if(!S.atypes.length)delete S.atypes;if(!S.cats.length)delete S.cats;return S}
+const keyOf=(t,r)=>t==='settings'?'one':String(r[PK[t]]);
+const index=rows=>Object.fromEntries(ORDER.map(t=>[t,Object.fromEntries(rows[t].map(r=>[keyOf(t,r),JSON.stringify(r)]))]));
+let base=null;try{base=JSON.parse(localStorage.getItem(BASE)||'null')}catch(e){}
+const saveBase=()=>{try{localStorage.setItem(BASE,JSON.stringify(base))}catch(e){}};
 const isEmpty=s=>!s||((s.tx||[]).length===0&&(s.facs||[]).length===0&&(s.accounts||[]).length<=1);
-const ask=(cloud,local)=>new Promise(res=>{const c=JSON.parse(cloud);
-  $('cDlgTxt').textContent=`Your account already has data (${c.tx.length} entries, ${c.accounts.length} accounts). This device has different data (${local.tx.length} entries, ${local.accounts.length} accounts). Choose which one to keep on all your devices.`;
+
+async function fetchAll(){const R={};await Promise.all(ORDER.map(async t=>{const{data,error}=await sb.from(t).select('*').eq('user_id',user.id);if(error)throw error;R[t]=data.map(({user_id,updated_at,...r})=>r)}));return R}
+async function pushNow(){
+  if(!user||!ready)return;if(pushing){pushAgain=true;return pushing}
+  pushing=(async()=>{
+    const cur=index(toRows(A.get())),b=base||Object.fromEntries(ORDER.map(t=>[t,{}]));let changed=false;
+    for(const t of ORDER){const up=[],del=[];
+      for(const[k,j]of Object.entries(cur[t]))if(b[t][k]!==j){const r=JSON.parse(j);r.user_id=user.id;if(STAMP[t])r.updated_at=new Date().toISOString();up.push(r)}
+      for(const k of Object.keys(b[t]))if(!(k in cur[t]))del.push(k);
+      if(up.length){changed=true;const{error}=await sb.from(t).upsert(up,{onConflict:t==='settings'?'user_id':'user_id,'+PK[t]});if(error)throw error}
+      if(del.length&&t!=='settings'){changed=true;const{error}=await sb.from(t).delete().eq('user_id',user.id).in(PK[t],del);if(error)throw error}
+      b[t]=cur[t]}
+    base=b;saveBase();if(changed)stat('Synced ✓ '+when())})()
+   .catch(e=>{stat(e&&e.code==='42501'?'Not allowed: check the database rules':navigator.onLine?'Not synced yet, will retry':'Offline. Will sync when you’re back online');clearTimeout(pushT);pushT=setTimeout(pushNow,15000)})
+   .finally(()=>{pushing=null;if(pushAgain){pushAgain=false;pushNow()}});
+  return pushing}
+window.__cloudPush=()=>{if(!user||!ready)return;clearTimeout(pushT);stat('Saving…');pushT=setTimeout(pushNow,400)};
+async function pull(silent){if(!user||!ready||pushing)return;
+  try{const R=await fetchAll(),S2=fromRows(R),rows=index(toRows(S2)),now=index(toRows(A.get()));
+    if(JSON.stringify(rows)!==JSON.stringify(now)){const keep=A.get();base=rows;saveBase();A.set({...S2,atypes:S2.atypes||keep.atypes,cats:S2.cats||keep.cats});if(!silent)A.toast('Updated from your other device')}
+    else{base=rows;saveBase()}
+    stat('Synced ✓ '+when())}catch(e){stat(navigator.onLine?'Not synced yet, will retry':'Offline. Will sync when you’re back online')}}
+function listen(){if(chan)sb.removeChannel(chan);chan=sb.channel('u-'+user.id);
+  ORDER.forEach(t=>chan.on('postgres_changes',{event:'*',schema:'public',table:t,filter:'user_id=eq.'+user.id},()=>{clearTimeout(pullT);pullT=setTimeout(()=>pull(false),700)}));
+  chan.subscribe()}
+const ask=(c,l)=>new Promise(res=>{$('cDlgTxt').textContent=`Your account already has data (${c.tx.length} entries, ${c.accounts.length} accounts). This device has different data (${l.tx.length} entries, ${l.accounts.length} accounts). Choose which one to keep on all your devices.`;
   $('cDlg').hidden=false;$('cUseCloud').onclick=()=>{$('cDlg').hidden=true;res('cloud')};$('cUseLocal').onclick=()=>{$('cDlg').hidden=true;res('local')}});
-function listen(){if(unsub)unsub();unsub=onSnapshot(ref,snap=>{if(snap.metadata.hasPendingWrites)return;const d=snap.data();if(!d)return;
-  if(d.json!==JSON.stringify(A.get())){lastJson=d.json;try{A.set(JSON.parse(d.json));if(!snap.metadata.fromCache)A.toast('Updated from your other device')}catch(e){}}
-  if(!snap.metadata.fromCache)stat('Synced ✓ '+new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}))},e=>stat('Sync paused: '+(e.code||'error')))}
-onAuthStateChanged(auth,async u=>{user=u;ready=false;window.__gateReady=true;$('gLoad').hidden=true;$('gForm').hidden=false;$('gate').hidden=!!u;$('cInBox').hidden=!u;err();
-  if(!u){stat('');return}
-  $('cWho').textContent=u.email||'Signed in';stat('Connecting…');$('cPass').value='';ref=doc(db,'users',u.uid);
+async function start(u){
+  user=u;ready=false;window.__gateReady=true;$('gLoad').hidden=true;$('gForm').hidden=false;$('gate').hidden=true;$('cInBox').hidden=false;
+  $('cWho').textContent=u.email||'Signed in';stat('Connecting…');$('cPass').value='';err();info('');
   let owner=null;try{owner=localStorage.getItem(OWN)}catch(e){}
   try{
-    if(owner!==u.uid){
-      const snap=await getDoc(ref),local=A.get(),lj=JSON.stringify(local);
-      if(snap.exists()){const cj=snap.data().json;
-        if(cj!==lj){const pick=(local.demo||isEmpty(local))?'cloud':await ask(cj,local);
-          if(pick==='cloud'){lastJson=cj;A.set(JSON.parse(cj))}}}
+    if(owner===u.id&&base){ready=true;await pushNow();await pull(true)}
+    else{
+      const R=await fetchAll(),remote=fromRows(R),local=A.get(),hasRemote=R.accounts.length||R.transactions.length||R.installments.length;
+      base=Object.fromEntries(ORDER.map(t=>[t,{}]));
+      if(hasRemote){const pick=(local.demo||isEmpty(local))?'cloud':await ask(remote,local);
+        base=index(toRows(remote));if(pick==='cloud'){const f=A.fresh();A.set({...remote,atypes:remote.atypes||f.atypes,cats:remote.cats||f.cats})}}
       else if(local.demo)A.set(A.fresh());
-      try{localStorage.setItem(OWN,u.uid)}catch(e){}
-    }
-    ready=true;await push();listen();
-  }catch(e){stat(e.code==='permission-denied'?'Not allowed: check the database rules':'Offline. Will sync when you’re back online');ready=true;listen()}
+      saveBase();try{localStorage.setItem(OWN,u.id)}catch(e){}
+      ready=true;await pushNow();stat('Synced ✓ '+when())}
+    listen();
+  }catch(e){ready=true;stat(navigator.onLine?'Not synced yet, will retry':'Offline. Will sync when you’re back online');listen()}
+}
+function stop(){user=null;ready=false;window.__gateReady=true;if(chan){sb.removeChannel(chan);chan=null}$('gate').hidden=false;$('gLoad').hidden=true;$('gForm').hidden=false;$('cInBox').hidden=true}
+$('cSignIn').onclick=async()=>{const[e,p]=creds();err();if(!e||!p){err(!e?'Write your email above first.':'Enter your password.');return}busy(true);
+  const{error}=await sb.auth.signInWithPassword({email:e,password:p});if(error)err(msg(error));busy(false)};
+$('cSignUp').onclick=async()=>{const[e,p]=creds();err();if(!e){err('Write your email above first.');return}if(p.length<8){err('Password must be at least 8 characters.');return}busy(true);
+  const{data,error}=await sb.auth.signUp({email:e,password:p,options:{emailRedirectTo:HERE}});busy(false);
+  if(error){err(msg(error));return}
+  if(data.user&&Array.isArray(data.user.identities)&&data.user.identities.length===0){err('This email already has an account. Tap “Sign in”.');return}
+  if(!data.session)info('Check your email to confirm your account, then come back and sign in.')};
+$('cReset').onclick=async()=>{const[e]=creds();err();if(!e){err('Write your email above first.');return}
+  const{error}=await sb.auth.resetPasswordForEmail(e,{redirectTo:HERE});if(error)err(msg(error));else info('Password reset email sent')};
+$('cSignOut').onclick=async()=>{await sb.auth.signOut();try{localStorage.removeItem(OWN);localStorage.removeItem(BASE)}catch(e){}base=null;A.set(A.fresh());A.toast('Signed out. Your data is safe in your account.')};
+$('npSave').onclick=async()=>{const p=$('npPass').value;if(p.length<8){A.toast('Password must be at least 8 characters.');return}
+  const{error}=await sb.auth.updateUser({password:p});if(error){A.toast(msg(error));return}$('npDlg').hidden=true;$('npPass').value='';A.toast('Password updated')};
+sb.auth.onAuthStateChange((ev,session)=>{
+  if(ev==='PASSWORD_RECOVERY')setTimeout(()=>{$('npDlg').hidden=false;$('npPass').focus()},0);
+  const u=session&&session.user;
+  if(u&&(!user||user.id!==u.id))setTimeout(()=>start(u),0);
+  else if(!u)setTimeout(stop,0);
 });
+addEventListener('online',()=>{if(user){pushNow().then(()=>pull(true))}});
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&user&&ready)pushNow().then(()=>pull(false))});
 </script>
 </body>
 </html>
